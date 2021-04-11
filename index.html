@@ -71,7 +71,7 @@
 			<h1 class="header-author"><a href="/">dp</a></h1>
 		</hgroup>
 		
-		<p class="header-subtitle">subtitle</p>
+		<p class="header-subtitle">吃好喝好，长生不老!</p>
 		
 
 		<nav class="header-menu">
@@ -155,7 +155,7 @@
 			  <h1 class="header-author js-header-author">dp</h1>
 			</hgroup>
 			
-			<p class="header-subtitle"><i class="icon icon-quo-left"></i>subtitle<i class="icon icon-quo-right"></i></p>
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>吃好喝好，长生不老!<i class="icon icon-quo-right"></i></p>
 			
 			
 			
@@ -218,6 +218,118 @@
           </div>
           <div id="js-content" class="content-ll">
             
+
+  
+    <article id="post-try catch finally" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/04/11/try%20catch%20finally/" target="_blank">try catch finally</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/04/11/try%20catch%20finally/" class="archive-article-date">
+        <time datetime="2021-04-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-11</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <ol>
+<li><p>finally块的语句在try或catch中的return语句执行之后,返回之前执行</p>
+</li>
+<li><p>finally里的修改语句可能影响也可能不影响try或catch中 return已经确定的返回值</p>
+<p>若try/catch中 return 基础类型变量a,finally中修改a,对最终return值不影响</p>
+<p>若try/catch中 return 引用类型变量b,finally中修改b,最终return修改后的b</p>
+<p>(原因: Java只有值传递)</p>
+</li>
+<li><p>若finally里也有return语句则覆盖try或catch中的return语句直接返回</p>
+</li>
+<li><p>当发生异常后，catch中的return执行情况与未发生异常时try中return的执行情况完全一样</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FinallyTest1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	System.out.println(test3());</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"> 	<span class="keyword">try</span> &#123;</span><br><span class="line">        </span><br><span class="line">        System.out.println(<span class="string">&quot;try block&quot;</span>);</span><br><span class="line"> 		<span class="keyword">return</span> b += <span class="number">80</span>;</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        </span><br><span class="line">        System.out.println(<span class="string">&quot;catch block&quot;</span>);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;finally block&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (b &gt; <span class="number">25</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;b&gt;25, b = &quot;</span> + b);</span><br><span class="line">        &#125;</span><br><span class="line">        b += <span class="number">150</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2000</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//==================</span></span><br><span class="line"><span class="keyword">try</span> block</span><br><span class="line"><span class="keyword">finally</span> block</span><br><span class="line">b&gt;<span class="number">25</span>, b = <span class="number">100</span></span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FinallyTest2</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(getMap().get(<span class="string">&quot;KEY&quot;</span>).toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title">getMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Map map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">&quot;KEY&quot;</span>, <span class="string">&quot;INIT&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            map.put(<span class="string">&quot;KEY&quot;</span>, <span class="string">&quot;TRY&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> map;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            map.put(<span class="string">&quot;KEY&quot;</span>, <span class="string">&quot;CATCH&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">finally</span> &#123;</span><br><span class="line">            map.put(<span class="string">&quot;KEY&quot;</span>, <span class="string">&quot;FINALLY&quot;</span>);</span><br><span class="line">            map = <span class="keyword">null</span>;  <span class="comment">//Java中只有值传递,通过引用可改变内容,引用指向变更对旧引用无影响</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//========</span></span><br><span class="line">FINALLY</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FinallyTest3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	System.out.println(test3());</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"> 	<span class="keyword">try</span> &#123;</span><br><span class="line">        </span><br><span class="line">        System.out.println(<span class="string">&quot;try block&quot;</span>);</span><br><span class="line"> 		b += <span class="number">80</span>;</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        </span><br><span class="line">        System.out.println(<span class="string">&quot;catch block&quot;</span>);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;finally block&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (b &gt; <span class="number">25</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;b&gt;25, b = &quot;</span> + b);</span><br><span class="line">        &#125;</span><br><span class="line">        b += <span class="number">150</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//==================</span></span><br><span class="line"><span class="keyword">try</span> block</span><br><span class="line"><span class="keyword">finally</span> block</span><br><span class="line">b&gt;<span class="number">25</span>, b = <span class="number">100</span></span><br><span class="line"><span class="number">250</span></span><br></pre></td></tr></table></figure>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/04/11/try%20catch%20finally/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
 
   
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
@@ -311,7 +423,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/2021/02/13/hexo/" target="_blank">Hexo</a>
+	  <a class="article-title" href="/2021/02/13/hexo/" target="_blank">Hexo--yilia plus theme notes</a>
   
     </h1>
   
@@ -332,7 +444,10 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h4 id="给文章添加分类和标签"><a href="#给文章添加分类和标签" class="headerlink" title="给文章添加分类和标签"></a>给文章添加分类和标签</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">title: 在这里</span><br><span class="line">date: 2018-08-02 11:41:10</span><br><span class="line">tags:</span><br><span class="line">- 博客           &#x2F;&#x2F;多个标签可以这样添加</span><br><span class="line">- hexo</span><br><span class="line">categories: web前端</span><br></pre></td></tr></table></figure>
+    <h4 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1.常用命令"></a>1.常用命令</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">hexo</span> <span class="string">s</span>  <span class="string">//本地启动hexo命令</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">new</span> <span class="string">xxx</span> <span class="string">//新建文章;默认source/_posts/xxx.md</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">new</span> <span class="string">page</span> <span class="string">cc</span> <span class="string">//在source目录下新建文件夹cc,其中默认index.md</span> <span class="string">,访问其路径http://localhost:4000/cc</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">g</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">d</span>  <span class="string">//hexo发布git命令</span></span><br><span class="line"></span><br><span class="line"><span class="string">https://hexo.io/zh-cn/docs</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-给文章添加分类和标签"><a href="#2-给文章添加分类和标签" class="headerlink" title="2.给文章添加分类和标签"></a>2.给文章添加分类和标签</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">title: 在这里</span><br><span class="line">date: 2018-08-02 11:41:10</span><br><span class="line">tags:</span><br><span class="line">- 博客           &#x2F;&#x2F;多个标签可以这样添加</span><br><span class="line">- hexo</span><br><span class="line">categories: web前端</span><br></pre></td></tr></table></figure>
+<h4 id="3-文章添加目录"><a href="#3-文章添加目录" class="headerlink" title="3.文章添加目录"></a>3.文章添加目录</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1._config.yml中添加如下配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 目录设定：0-不显示目录； 1-文章对应的md文件里有toc:true属性，才有目录； 2-所有文章均显示目录</span></span><br><span class="line"><span class="attr">toc:</span> <span class="number">2</span></span><br><span class="line"><span class="comment"># 根据自己的习惯来设置，如果你的目录标题习惯有标号，置为true即可隐藏hexo重复的序号；否则置为false</span></span><br><span class="line"><span class="attr">toc_hide_index:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># 目录为空时的提示</span></span><br><span class="line"><span class="attr">toc_empty_wording:</span> <span class="string">&#x27;目录，不存在的…&#x27;</span>  </span><br><span class="line"></span><br><span class="line"><span class="attr">jsonContent:</span></span><br><span class="line">  <span class="attr">meta:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">pages:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">posts:</span></span><br><span class="line">    <span class="attr">title:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">date:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">path:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">text:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">raw:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">content:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">slug:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">updated:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">comments:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">link:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">permalink:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">excerpt:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">categories:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.安装依赖</span></span><br><span class="line"><span class="string">npm</span> <span class="string">i</span> <span class="string">hexo-generator-json-content</span> <span class="string">--save</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
     
 
     
@@ -343,11 +458,178 @@
   <div class="article-info article-info-index">
     
     
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
     
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/hexo//" class="article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
     
     <p class="article-more-link">
       <a class="article-more-a" href="/2021/02/13/hexo/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-事务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/02/13/%E4%BA%8B%E5%8A%A1/" target="_blank">事务的隔离级别与脏读 不可重复读 幻读</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/02/13/%E4%BA%8B%E5%8A%A1/" class="archive-article-date">
+        <time datetime="2021-02-13T13:57:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-13</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h3 id="1-特性"><a href="#1-特性" class="headerlink" title="1.特性"></a>1.特性</h3><p>​    原子性: 事务内多个操作要么全部成功,要么全部失败</p>
+<p>​    一致性: 事务前后系统状态是一致的</p>
+<p>​    隔离性: 事务并发执行时,读取不到别的事务的中间状态</p>
+<p>​    持久性: 事务执行前后</p>
+<h3 id="2-事务并发导致的脏读-不可重复读-幻读"><a href="#2-事务并发导致的脏读-不可重复读-幻读" class="headerlink" title="2.事务并发导致的脏读 不可重复读 幻读"></a>2.事务并发导致的脏读 不可重复读 幻读</h3><p><strong>脏读</strong></p>
+<p>A事务读取到B事务的未提交的状态,B事务发生回滚,此时A事务读取到的数据即为脏数据</p>
+<p><strong>不可重复读</strong></p>
+<p>事务内多次读取的内容不一致,即读取到别的事务update的数据, 针对update操作</p>
+<p>解决：使用行级锁，锁定该行，事务A多次读取操作完成后才释放该锁，这个时候才允许其他事务更改刚才的数据。</p>
+<p><strong>幻读</strong></p>
+<p>事务内多次读取的数据量不一致,针对insert和delete操作</p>
+<p>解决：使用表级锁，锁定整张表，事务A多次读取数据总量之后才释放该锁，这个时候才允许其他事务新增或删除数据。</p>
+<h3 id="3-隔离级别与脏读-不可重复读-幻读"><a href="#3-隔离级别与脏读-不可重复读-幻读" class="headerlink" title="3.隔离级别与脏读 不可重复读 幻读"></a>3.隔离级别与脏读 不可重复读 幻读</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>read uncommitted</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>read committed</td>
+<td>x</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>repeatable read</td>
+<td>x</td>
+<td>x</td>
+<td>√</td>
+</tr>
+<tr>
+<td>serializable</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+</tbody></table>
+<p>​        </p>
+<p>Mysql的默认隔离级别就是Repeatable read</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1450773">https://cloud.tencent.com/developer/article/1450773</a></p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/hexo//" class="article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/02/13/%E4%BA%8B%E5%8A%A1/">展开全文 >></a>
     </p>
     
 
@@ -505,6 +787,14 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
